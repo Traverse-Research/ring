@@ -306,7 +306,7 @@ fn ring_build_rs_main(c_root_dir: &Path, core_name_and_version: &str) {
     let endian = env::var("CARGO_CFG_TARGET_ENDIAN").unwrap();
     let is_little_endian = endian == "little";
 
-    let is_git = fs::metadata(c_root_dir.join(".git")).is_ok();
+    let is_git = false; // fs::metadata(c_root_dir.join(".git")).is_ok();
 
     // Published builds are always built in release mode.
     let is_debug = is_git && env::var("DEBUG").unwrap() != "false";
@@ -618,7 +618,7 @@ fn nasm(file: &Path, arch: &str, include_dir: &Path, out_dir: &Path, c_root_dir:
     let mut include_dir = include_dir.as_os_str().to_os_string();
     include_dir.push(OsString::from(String::from(std::path::MAIN_SEPARATOR)));
 
-    let mut c = Command::new("./target/tools/windows/nasm/nasm");
+    let mut c = Command::new("nasm");
     let _ = c
         .arg("-o")
         .arg(out_file.to_str().expect("Invalid path"))
